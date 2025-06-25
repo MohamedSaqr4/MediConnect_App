@@ -1,4 +1,6 @@
 import 'package:booking_app/core/utils/App_Router.dart';
+import 'package:booking_app/features/doctor/presentation/views/doctor_home_view.dart';
+import 'package:booking_app/features/doctor/presentation/views/doctor_navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:booking_app/constants.dart';
 import 'package:booking_app/core/widgets/HeaderSection.dart';
@@ -30,6 +32,12 @@ class _LoginViewBodyState extends State<LoginViewBody> {
 
   void login() {
     if (_formKey.currentState!.validate()) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => DoctorNavBar(),
+        ),
+      );
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Logging in...')),
       );
