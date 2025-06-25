@@ -1,4 +1,6 @@
 import 'package:booking_app/features/doctor/presentation/views/Doctor_appointment_view.dart';
+import 'package:booking_app/features/doctor/presentation/views/doctor_profile_view.dart';
+import 'package:booking_app/features/doctor/presentation/views/widgets/chat_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:booking_app/constants.dart';
 import 'package:booking_app/features/doctor/presentation/views/doctor_home_view.dart';
@@ -15,9 +17,9 @@ class _DoctorNavBarState extends State<DoctorNavBar> {
 
   final List<Widget> pages = [
     const DoctorHomeView(),
-     DoctorAppointmentView(),
-    Center(child: Text('Chat')),
-    Center(child: Text('Profile')),
+    DoctorAppointmentView(),
+    ChatListScreen(),
+    DoctorProfileSettingView(),
   ];
 
   @override
