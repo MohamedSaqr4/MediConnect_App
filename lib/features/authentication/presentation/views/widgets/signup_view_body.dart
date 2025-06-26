@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:booking_app/constants.dart';
-import 'package:booking_app/core/widgets/HeaderSection.dart';
+import 'package:booking_app/core/utils/widgets/HeaderSection.dart';
 import 'package:booking_app/features/authentication/presentation/views/widgets/signup_form_fields.dart';
-import 'package:booking_app/custom/widgets/customButton.dart';
+import 'package:booking_app/core/utils/widgets/customButton.dart';
 import 'package:booking_app/features/authentication/presentation/views/widgets/SocialLoginOptions%20.dart';
 import 'package:booking_app/features/authentication/presentation/views/widgets/TextWithButton.dart';
 import 'package:shared_preferences/shared_preferences.dart';

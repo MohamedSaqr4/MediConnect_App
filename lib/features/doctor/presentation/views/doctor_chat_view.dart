@@ -33,6 +33,7 @@ class _DoctorChatViewState extends State<DoctorChatView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        
         title: Row(
           children: [
             CircleAvatar(
@@ -48,6 +49,7 @@ class _DoctorChatViewState extends State<DoctorChatView> {
         children: [
           Expanded(
             child: ListView.builder(
+              physics: const BouncingScrollPhysics(),
               reverse: true,
               padding: const EdgeInsets.all(12),
               itemCount: _messages.length,

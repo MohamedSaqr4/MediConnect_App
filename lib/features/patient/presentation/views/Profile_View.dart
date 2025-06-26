@@ -1,8 +1,9 @@
 import 'package:booking_app/constants.dart';
-import 'package:booking_app/core/widgets/HeaderSection.dart';
-import 'package:booking_app/features/authentication/presentation/views/loginView.dart';
+import 'package:booking_app/core/utils/app_router.dart';
+import 'package:booking_app/core/utils/widgets/HeaderSection.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 
 class ProfileView extends StatelessWidget {
   const ProfileView({Key? key}) : super(key: key);
@@ -103,7 +104,7 @@ class ProfileView extends StatelessWidget {
                               text: "Log Out",
                               iconColor: Colors.red,
                               onTap: () {
-                               
+                                GoRouter.of(context).push(AppRouter.kLoginView);
                               },
                             ),
                           ],

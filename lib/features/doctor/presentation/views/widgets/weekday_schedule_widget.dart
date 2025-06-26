@@ -1,4 +1,4 @@
-import 'package:booking_app/custom/widgets/customButton.dart';
+import 'package:booking_app/core/utils/widgets/customButton.dart';
 import 'package:flutter/material.dart';
 import 'package:booking_app/constants.dart';
 

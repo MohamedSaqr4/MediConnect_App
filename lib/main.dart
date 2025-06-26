@@ -1,4 +1,4 @@
-import 'package:booking_app/core/utils/App_Router.dart';
+import 'package:booking_app/core/utils/app_router.dart';
 import 'package:flutter/material.dart';
 
 void main() {

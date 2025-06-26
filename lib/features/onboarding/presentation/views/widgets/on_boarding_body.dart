@@ -1,5 +1,5 @@
 import 'package:booking_app/constants.dart';
-import 'package:booking_app/core/utils/App_Router.dart';
+import 'package:booking_app/core/utils/app_router.dart';
 import 'package:booking_app/features/onboarding/presentation/views/widgets/custom_page_body.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding_slider/flutter_onboarding_slider.dart';

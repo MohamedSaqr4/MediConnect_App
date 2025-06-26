@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:booking_app/constants.dart';
-import 'package:booking_app/views/ChatView.dart';
+import 'package:booking_app/features/patient/presentation/views/ChatView.dart';
 
 class ChatSelectionView extends StatelessWidget {
   const ChatSelectionView({Key? key}) : super(key: key);

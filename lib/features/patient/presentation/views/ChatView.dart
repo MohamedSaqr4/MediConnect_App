@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:booking_app/constants.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+// import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 
 class ChatView extends StatefulWidget {
   final bool isDoctorChat;
@@ -19,6 +22,7 @@ class _ChatViewState extends State<ChatView> {
   final TextEditingController _messageController = TextEditingController();
   final List<ChatMessage> _messages = [];
   bool _isTyping = false;
+  final ImagePicker _picker = ImagePicker();
 
   @override
   void initState() {
@@ -51,7 +55,7 @@ class _ChatViewState extends State<ChatView> {
           _messages.add(
             ChatMessage(
               message: widget.isDoctorChat
-                  ? "I understand your concern. Let me help you with that."
+                  ? "شكراً لك على رسالتك. سأقوم بمراجعة حالتك والرد عليك قريباً. هل هناك أي شيء محدد تريد مناقشته؟"
                   : "I'm analyzing your query. Here's what I can tell you...",
               isUser: false,
             ),
@@ -61,6 +65,35 @@ class _ChatViewState extends State<ChatView> {
     });
   }
 
+  Future<void> _handleImageSelection() async {
+    final XFile? pickedFile =
+        await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        _messages.add(ChatMessage(
+          message: '',
+          isUser: true,
+          imageFile: File(pickedFile.path),
+        ));
+      });
+      // Simulate response after a short delay
+      Future.delayed(const Duration(seconds: 1), () {
+        if (mounted) {
+          setState(() {
+            _messages.add(
+              ChatMessage(
+                message: widget.isDoctorChat
+                    ? "تم استلام الصورة. شكراً لك!"
+                    : "Image received!",
+                isUser: false,
+              ),
+            );
+          });
+        }
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,13 +101,14 @@ class _ChatViewState extends State<ChatView> {
         title: Row(
           children: [
             widget.isDoctorChat
-                ? const CircleAvatar(
+                ? CircleAvatar(
                     radius: 20,
-                    backgroundImage: AssetImage('assets/images/Doctor2.png'),
+                    backgroundImage: AssetImage(
+                        widget.doctor?['image'] ?? 'assets/images/Doctor2.png'),
                   )
                 : Container(
                     padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: Colors.white,
                       shape: BoxShape.circle,
                     ),
@@ -89,11 +123,15 @@ class _ChatViewState extends State<ChatView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'AI Assistant',
+                  widget.isDoctorChat
+                      ? (widget.doctor?['name'] ?? 'Doctor')
+                      : 'AI Assistant',
                   style: const TextStyle(fontSize: 16),
                 ),
                 Text(
-                  'Online',
+                  widget.isDoctorChat
+                      ? (widget.doctor?['specialization'] ?? 'Specialist')
+                      : 'Online',
                   style: const TextStyle(fontSize: 12),
                 ),
               ],
@@ -102,9 +140,111 @@ class _ChatViewState extends State<ChatView> {
         ),
         backgroundColor: kPrimaryColor,
         elevation: 0,
+        actions: widget.isDoctorChat
+            ? [
+                IconButton(
+                  icon: const Icon(Icons.call, color: Colors.white),
+                  tooltip: 'Audio Call',
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const AudioCallScreen()),
+                    );
+                  },
+                ),
+                IconButton(
+                  icon: const Icon(Icons.videocam, color: Colors.white),
+                  tooltip: 'Video Call',
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const VideoCallScreen()),
+                    );
+                  },
+                ),
+              ]
+            : null,
       ),
       body: Column(
         children: [
+          if (widget.isDoctorChat)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton.icon(
+                  icon: const Icon(Icons.phone, color: Colors.white),
+                  label: const Text('Call the Doctor'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: kPrimaryColor,
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    textStyle: const TextStyle(fontSize: 18),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
+                  onPressed: () {
+                    showModalBottomSheet(
+                      context: context,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(20)),
+                      ),
+                      builder: (context) => Padding(
+                        padding: const EdgeInsets.all(24.0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text('Choose Call Type',
+                                style: Theme.of(context).textTheme.titleLarge),
+                            const SizedBox(height: 20),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                ElevatedButton.icon(
+                                  icon: const Icon(Icons.call),
+                                  label: const Text('Audio'),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: kPrimaryColor,
+                                  ),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const AudioCallScreen()),
+                                    );
+                                  },
+                                ),
+                                ElevatedButton.icon(
+                                  icon: const Icon(Icons.videocam),
+                                  label: const Text('Video'),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: kPrimaryColor,
+                                  ),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const VideoCallScreen()),
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
           Expanded(
             child: Container(
               decoration: const BoxDecoration(
@@ -147,6 +287,10 @@ class _ChatViewState extends State<ChatView> {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Row(
               children: [
+                IconButton(
+                  icon: const Icon(Icons.photo, color: kPrimaryColor),
+                  onPressed: _handleImageSelection,
+                ),
                 Expanded(
                   child: TextField(
                     controller: _messageController,
@@ -186,11 +330,13 @@ class _ChatViewState extends State<ChatView> {
 class ChatMessage extends StatelessWidget {
   final String message;
   final bool isUser;
+  final File? imageFile;
 
   const ChatMessage({
     Key? key,
     required this.message,
     required this.isUser,
+    this.imageFile,
   }) : super(key: key);
 
   @override
@@ -222,12 +368,19 @@ class ChatMessage extends StatelessWidget {
                 color: isUser ? kPrimaryColor : Colors.grey[200],
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: Text(
-                message,
-                style: TextStyle(
-                  color: isUser ? Colors.white : Colors.black87,
-                ),
-              ),
+              child: imageFile != null
+                  ? Image.file(
+                      imageFile!,
+                      width: 180,
+                      height: 180,
+                      fit: BoxFit.cover,
+                    )
+                  : Text(
+                      message,
+                      style: TextStyle(
+                        color: isUser ? Colors.white : Colors.black87,
+                      ),
+                    ),
             ),
           ),
           if (isUser) ...[
@@ -283,7 +436,7 @@ class _TypingIndicator extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 2),
       child: TweenAnimationBuilder<double>(
         tween: Tween(begin: 0.0, end: 1.0),
-        duration: Duration(milliseconds: 600),
+        duration: const Duration(milliseconds: 600),
         curve:
             Interval(index * 0.2, (index + 1) * 0.2, curve: Curves.easeInOut),
         builder: (context, value, child) {
@@ -300,6 +453,30 @@ class _TypingIndicator extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+}
+
+class AudioCallScreen extends StatelessWidget {
+  const AudioCallScreen({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Audio Call')),
+      body: const Center(child: Text('Audio call screen (to be implemented)')),
+    );
+  }
+}
+
+class VideoCallScreen extends StatelessWidget {
+  const VideoCallScreen({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Video Call')),
+      body: const Center(child: Text('Video call screen (to be implemented)')),
     );
   }
 }

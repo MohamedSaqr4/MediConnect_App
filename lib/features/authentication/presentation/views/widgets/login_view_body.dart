@@ -1,12 +1,11 @@
-import 'package:booking_app/core/utils/App_Router.dart';
-import 'package:booking_app/features/doctor/presentation/views/doctor_home_view.dart';
-import 'package:booking_app/features/doctor/presentation/views/doctor_navbar.dart';
+import 'package:booking_app/core/utils/app_router.dart';
+import 'package:booking_app/features/patient/presentation/views/patient_navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:booking_app/constants.dart';
-import 'package:booking_app/core/widgets/HeaderSection.dart';
+import 'package:booking_app/core/utils/widgets/HeaderSection.dart';
 import 'package:booking_app/features/authentication/presentation/views/widgets/SocialLoginOptions%20.dart';
 import 'package:booking_app/features/authentication/presentation/views/widgets/TextWithButton.dart';
-import 'package:booking_app/custom/widgets/customButton.dart';
+import 'package:booking_app/core/utils/widgets/customButton.dart';
 import 'package:booking_app/features/authentication/presentation/views/widgets/login_form_fields.dart';
 import 'package:go_router/go_router.dart';
 
@@ -35,7 +34,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => DoctorNavBar(),
+          builder: (context) => const PatientNavBar(),
         ),
       );
       ScaffoldMessenger.of(context).showSnackBar(

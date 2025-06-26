@@ -29,7 +29,6 @@ class DoctorAppointmentView extends StatelessWidget {
       imageUrl: "assets/images/doctorr.png",
       day: "Monday",
     ),
-    // ممكن تضيف أو تجيبهم من قاعدة البيانات
   ];
 
   DoctorAppointmentView({super.key});
@@ -39,10 +38,10 @@ class DoctorAppointmentView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text("Weekly Appointments")),
       body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.all(16),
         child: Column(
           children: daysOfWeek.map((day) {
-            // حجوزات اليوم ده فقط
             final dayAppointments =
                 allAppointments.where((a) => a.day == day).toList();
 
