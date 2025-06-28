@@ -1,5 +1,5 @@
 import 'package:booking_app/constants.dart';
-import 'package:booking_app/features/patient/presentation/views/ChatSelectionView.dart';
+import 'package:booking_app/features/patient/presentation/views/ai_chat_boot.dart';
 import 'package:booking_app/features/patient/presentation/views/patient_home_view.dart';
 import 'package:booking_app/features/patient/presentation/views/Profile_View.dart';
 import 'package:booking_app/features/patient/presentation/views/ScheduleView.dart';
@@ -16,9 +16,9 @@ class _PatientNavBarState extends State<PatientNavBar> {
   int currentIndex = 0;
 
   final List<Widget> pages = [
-    PatientHomeView(),    ScheduleView(),
-
-    const ChatSelectionView(),
+    PatientHomeView(),
+    ScheduleView(),
+    const ChatBoot(),
     const ProfileView()
   ];
 

@@ -1,7 +1,9 @@
+import 'package:booking_app/core/utils/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:booking_app/constants.dart';
 import 'package:booking_app/features/patient/domain/models/doctor.dart';
 import 'package:booking_app/features/patient/presentation/views/ChatView.dart';
+import 'package:go_router/go_router.dart';
 
 class PaymentView extends StatefulWidget {
   final Doctor doctor;
@@ -30,114 +32,125 @@ class _PaymentViewState extends State<PaymentView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Payment'),
-        backgroundColor: kPrimaryColor,
-        foregroundColor: Colors.white,
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Appointment Summary
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Appointment Summary',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.of(context).popUntil((route) => route.isFirst);
+        return false;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () =>
+GoRouter.of(context).push(AppRouter.kPatientNavBar),
+          ),
+          title: const Text('Payment'),
+          backgroundColor: kPrimaryColor,
+          foregroundColor: Colors.white,
+        ),
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Appointment Summary
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Appointment Summary',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 12),
-                    _buildSummaryRow('Doctor', widget.doctor.name),
-                    _buildSummaryRow(
-                        'Specialization', widget.doctor.specialization),
-                    _buildSummaryRow('Date', widget.selectedTime.day),
-                    _buildSummaryRow('Time',
-                        '${widget.selectedTime.startTime} - ${widget.selectedTime.endTime}'),
-                    _buildSummaryRow('Location', widget.doctor.location),
-                    _buildSummaryRow(
-                        'Booking Type', widget.bookingType.toUpperCase()),
-                    const Divider(),
-                    _buildSummaryRow(
-                      'Total Amount',
-                      widget.doctor.consultationFee,
-                      isTotal: true,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
-            // Payment Method Selection
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Payment Method',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                      const SizedBox(height: 12),
+                      _buildSummaryRow('Doctor', widget.doctor.name),
+                      _buildSummaryRow(
+                          'Specialization', widget.doctor.specialization),
+                      _buildSummaryRow('Date', widget.selectedTime.day),
+                      _buildSummaryRow('Time',
+                          '${widget.selectedTime.startTime} - ${widget.selectedTime.endTime}'),
+                      _buildSummaryRow('Location', widget.doctor.location),
+                      _buildSummaryRow(
+                          'Booking Type', widget.bookingType.toUpperCase()),
+                      const Divider(),
+                      _buildSummaryRow(
+                        'Total Amount',
+                        widget.doctor.consultationFee,
+                        isTotal: true,
                       ),
-                    ),
-                    const SizedBox(height: 12),
-                    ...paymentMethods
-                        .map((method) => RadioListTile<String>(
-                              title: Text(method),
-                              value: method,
-                              groupValue: selectedPaymentMethod,
-                              onChanged: (value) {
-                                setState(() {
-                                  selectedPaymentMethod = value!;
-                                });
-                              },
-                              activeColor: kPrimaryColor,
-                            ))
-                        .toList(),
-                  ],
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
-            // Payment Button
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () => _processPayment(),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: kPrimaryColor,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                child: const Text(
-                  'Pay Now',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+                    ],
                   ),
                 ),
               ),
-            ),
 
-            const SizedBox(height: 20),
-          ],
+              const SizedBox(height: 20),
+
+              // Payment Method Selection
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Payment Method',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      ...paymentMethods
+                          .map((method) => RadioListTile<String>(
+                                title: Text(method),
+                                value: method,
+                                groupValue: selectedPaymentMethod,
+                                onChanged: (value) {
+                                  setState(() {
+                                    selectedPaymentMethod = value!;
+                                  });
+                                },
+                                activeColor: kPrimaryColor,
+                              ))
+                          .toList(),
+                    ],
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 20),
+
+              // Payment Button
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () => _processPayment(),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: kPrimaryColor,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  child: const Text(
+                    'Pay Now',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 20),
+            ],
+          ),
         ),
       ),
     );

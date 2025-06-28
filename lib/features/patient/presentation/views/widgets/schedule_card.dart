@@ -9,7 +9,9 @@ class ScheduleCard extends StatelessWidget {
   final String location;
   final String imagePath;
   final String appointmentType;
-  final VoidCallback onChatPressed;
+  final VoidCallback? onChatPressed;
+  final VoidCallback? onMorePressed;
+  final String? chatButtonLabel;
 
   const ScheduleCard({
     Key? key,
@@ -20,7 +22,9 @@ class ScheduleCard extends StatelessWidget {
     required this.location,
     required this.imagePath,
     required this.appointmentType,
-    required this.onChatPressed, required Null Function() onMorePressed,
+    this.onChatPressed,
+    this.onMorePressed,
+    this.chatButtonLabel,
   }) : super(key: key);
 
   @override
@@ -142,12 +146,25 @@ class ScheduleCard extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                IconButton(
-                  icon: const Icon(Icons.chat_bubble_outline,
-                      color: kPrimaryColor),
-                  tooltip: 'Chat with Doctor',
-                  onPressed: onChatPressed,
-                ),
+                if (onChatPressed != null)
+                  ElevatedButton.icon(
+                    icon: const Icon(Icons.chat_bubble_outline,
+                        color: Colors.white),
+                    label: Text(
+                      chatButtonLabel ?? 'Chat',
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                    onPressed: onChatPressed,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: kPrimaryColor,
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 8),
+                    ),
+                  ),
               ],
             ),
           ),

@@ -1,5 +1,7 @@
 import 'package:booking_app/core/utils/app_router.dart';
 import 'package:booking_app/features/patient/presentation/views/patient_navbar.dart';
+import 'package:booking_app/features/pharmacist/presentation/views/pharmacist_home_view.dart';
+import 'package:booking_app/features/pharmacist/presentation/views/pharmcist_navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:booking_app/constants.dart';
 import 'package:booking_app/core/utils/widgets/HeaderSection.dart';
@@ -34,7 +36,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => const PatientNavBar(),
+          builder: (context) => const PharmcyNavbar(),
         ),
       );
       ScaffoldMessenger.of(context).showSnackBar(

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:booking_app/constants.dart';
 import 'package:booking_app/features/patient/presentation/views/ChatView.dart';
 
-class ChatSelectionView extends StatelessWidget {
-  const ChatSelectionView({Key? key}) : super(key: key);
+class ChatBoot extends StatelessWidget {
+  const ChatBoot({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class ChatSelectionView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const Text(
-              'Choose who you want to chat with',
+              'Start a chat with your AI Health Assistant',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -28,18 +28,21 @@ class ChatSelectionView extends StatelessWidget {
             const SizedBox(height: 40),
             _buildChatOption(
               context,
-              title: 'Chat with Doctor',
-              subtitle: 'Get professional medical advice',
-              icon: Icons.medical_services,
-              isDoctor: true,
-            ),
-            const SizedBox(height: 20),
-            _buildChatOption(
-              context,
               title: 'Chat with AI Assistant',
-              subtitle: 'Get instant health information',
+              subtitle: 'Get instant health tips and advice',
               icon: Icons.smart_toy,
               isDoctor: false,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ChatView(
+                      isDoctorChat: false,
+                      doctor: null,
+                    ),
+                  ),
+                );
+              },
             ),
           ],
         ),
@@ -53,6 +56,7 @@ class ChatSelectionView extends StatelessWidget {
     required String subtitle,
     required IconData icon,
     required bool isDoctor,
+    required VoidCallback onTap,
   }) {
     return Card(
       elevation: 4,
@@ -60,22 +64,7 @@ class ChatSelectionView extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
       ),
       child: InkWell(
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ChatView(
-                isDoctorChat: isDoctor,
-                doctor: isDoctor
-                    ? {
-                        'name': 'د. أحمد علي',
-                        'specialization': 'طبيب عام',
-                      }
-                    : null,
-              ),
-            ),
-          );
-        },
+        onTap: onTap,
         borderRadius: BorderRadius.circular(15),
         child: Container(
           padding: const EdgeInsets.all(20),
@@ -126,4 +115,4 @@ class ChatSelectionView extends StatelessWidget {
       ),
     );
   }
-} 
+}

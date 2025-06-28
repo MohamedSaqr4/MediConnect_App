@@ -1,141 +1,181 @@
 import 'package:booking_app/constants.dart';
-import 'package:booking_app/core/utils/app_router.dart';
-import 'package:booking_app/core/utils/widgets/HeaderSection.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:go_router/go_router.dart';
 
-class ProfileView extends StatelessWidget {
+class ProfileView extends StatefulWidget {
   const ProfileView({Key? key}) : super(key: key);
   static String routeName = "ProfileView";
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kPrimaryColor,
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+  State<ProfileView> createState() => _ProfileViewState();
+}
+
+class _ProfileViewState extends State<ProfileView> {
+  String userName = "Mohamed Saqr";
+  String userImage = 'assets/images/1748632292669.jpg';
+
+  void _changeName() async {
+    final controller = TextEditingController(text: userName);
+    final result = await showDialog<String>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Change Name'),
+        content: TextField(
+          controller: controller,
+          decoration: const InputDecoration(hintText: 'Enter new name'),
+        ),
+        actions: [
+          TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Cancel')),
+          TextButton(
+              onPressed: () => Navigator.pop(context, controller.text),
+              child: const Text('Save')),
+        ],
+      ),
+    );
+    if (result != null && result.trim().isNotEmpty) {
+      setState(() => userName = result.trim());
+    }
+  }
+
+  void _changePassword() async {
+    final oldPassController = TextEditingController();
+    final newPassController = TextEditingController();
+    await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Change Password'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            const Expanded(
-                flex: 1,
-                child: HeaderSection(
-                    title: 'Profile',
-                    subtitle: 'Manage Your Account Settings ')),
-            Expanded(
-              flex: 3,
-              child: Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(40),
-                    topRight: Radius.circular(40),
-                  ),
-                ),
-                padding: const EdgeInsets.only(
-                    top: 30.0, left: 24.0, right: 24.0, bottom: 24.0),
-                child: Column(
-                  children: [
-                    // Profile Info
-                    const Row(
-                      children: [
-                        CircleAvatar(
-                          radius: 40,
-                          backgroundImage:
-                              AssetImage('assets/images/1748632292669.jpg'),
-                        ),
-                        SizedBox(width: 16),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Mohamed Saqr",
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              "Profile",
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    const Divider(),
-                    Expanded(
-                      child: SingleChildScrollView(
-                        physics: const BouncingScrollPhysics(),
-                        child: Column(
-                          children: [
-                            buildSettingsTile(
-                              icon: FontAwesomeIcons.user,
-                              text: "Profile",
-                              onTap: () {},
-                            ),
-                            buildSettingsTile(
-                              icon: FontAwesomeIcons.bell,
-                              text: "Notifications",
-                              onTap: () {},
-                            ),
-                            buildSettingsTile(
-                              icon: FontAwesomeIcons.shieldHalved,
-                              text: "Privacy",
-                              onTap: () {},
-                            ),
-                            buildSettingsTile(
-                              icon: FontAwesomeIcons.cogs,
-                              text: "General",
-                              onTap: () {},
-                            ),
-                            buildSettingsTile(
-                              icon: FontAwesomeIcons.infoCircle,
-                              text: "About Us",
-                              onTap: () {},
-                            ),
-                            const Divider(),
-                            buildSettingsTile(
-                              icon: FontAwesomeIcons.signOutAlt,
-                              text: "Log Out",
-                              iconColor: Colors.red,
-                              onTap: () {
-                                GoRouter.of(context).push(AppRouter.kLoginView);
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+            TextField(
+              controller: oldPassController,
+              obscureText: true,
+              decoration: const InputDecoration(hintText: 'Old Password'),
+            ),
+            const SizedBox(height: 12),
+            TextField(
+              controller: newPassController,
+              obscureText: true,
+              decoration: const InputDecoration(hintText: 'New Password'),
             ),
           ],
+        ),
+        actions: [
+          TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Cancel')),
+          TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Save')),
+        ],
+      ),
+    );
+  }
+
+  void _changePhoto() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Change photo tapped (implement picker)')),
+    );
+  }
+
+  Widget buildProfileAction({
+    required IconData icon,
+    required String label,
+    required VoidCallback onPressed,
+    Color? color,
+  }) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Material(
+        elevation: 2,
+        borderRadius: BorderRadius.circular(16),
+        color: Colors.white,
+        child: ListTile(
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          leading: Icon(icon, color: color ?? kPrimaryColor),
+          title: Text(label,
+              style: TextStyle(
+                  color: color ?? kPrimaryColor, fontWeight: FontWeight.w500)),
+          trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+          onTap: onPressed,
         ),
       ),
     );
   }
 
-  Widget buildSettingsTile({
-    required IconData icon,
-    required String text,
-    required VoidCallback onTap,
-    Color iconColor = kPrimaryColor,
-  }) {
-    return ListTile(
-      leading: Icon(icon, color: iconColor),
-      title: Text(
-        text,
-        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.grey.shade100,
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const SizedBox(height: 32),
+                CircleAvatar(
+                  backgroundColor: kPrimaryColor,
+                  radius: 57,
+                  child: CircleAvatar(
+                    radius: 55,
+                    backgroundImage: AssetImage(userImage),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  userName,
+                  style: const TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: kPrimaryColor,
+                  ),
+                ),
+                const SizedBox(height: 32),
+
+                // Profile Options
+                buildProfileAction(
+                  icon: Icons.photo_camera,
+                  label: 'Change Photo',
+                  onPressed: _changePhoto,
+                ),
+                buildProfileAction(
+                  icon: Icons.edit,
+                  label: 'Change Name',
+                  onPressed: _changeName,
+                ),
+                buildProfileAction(
+                  icon: Icons.lock,
+                  label: 'Change Password',
+                  onPressed: _changePassword,
+                ),
+                buildProfileAction(
+                  icon: Icons.info_outline,
+                  label: 'About Us',
+                  onPressed: () {
+                    showAboutDialog(
+                      context: context,
+                      applicationName: 'Booking App',
+                      applicationVersion: '1.0.0',
+                      applicationLegalese: '© 2024 Booking App',
+                    );
+                  },
+                ),
+                buildProfileAction(
+                  icon: Icons.logout,
+                  label: 'Log Out',
+                  color: Colors.red,
+                  onPressed: () =>
+                      Navigator.of(context).popUntil((route) => route.isFirst),
+                ),
+                const SizedBox(height: 24),
+              ],
+            ),
+          ),
+        ),
       ),
-      trailing:
-          const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
-      onTap: onTap,
     );
   }
 }
