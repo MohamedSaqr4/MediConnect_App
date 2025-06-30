@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:booking_app/constants.dart';
+import 'package:booking_app/features/patient/presentation/patient_router.dart';
 import 'package:booking_app/features/patient/presentation/views/ChatView.dart';
+import 'package:go_router/go_router.dart';
 
 class ChatBoot extends StatelessWidget {
   const ChatBoot({Key? key}) : super(key: key);
@@ -33,15 +35,7 @@ class ChatBoot extends StatelessWidget {
               icon: Icons.smart_toy,
               isDoctor: false,
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const ChatView(
-                      isDoctorChat: false,
-                      doctor: null,
-                    ),
-                  ),
-                );
+                context.push(PatientRouter.kChatView);
               },
             ),
           ],

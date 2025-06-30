@@ -1,8 +1,10 @@
 // screens/chat_list_screen.dart
 
+import 'package:booking_app/features/doctor/presentation/doctor_router.dart';
 import 'package:booking_app/features/doctor/presentation/view_model/chat_patient_model.dart';
 import 'package:booking_app/features/doctor/presentation/views/doctor_chat_view.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class ChatListScreen extends StatelessWidget {
   final List<ChatUserModel> recentChats = [
@@ -48,15 +50,7 @@ class ChatListScreen extends StatelessWidget {
             trailing:
                 Text(user.lastTime, style: const TextStyle(color: Colors.grey)),
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => DoctorChatView(
-                    nurseName: user.name,
-                    nurseImage: user.imageUrl,
-                  ),
-                ),
-              );
+              context.push(DoctorRouter.kDoctorChatView);
             },
           );
         },

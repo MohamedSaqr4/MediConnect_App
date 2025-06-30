@@ -1,8 +1,8 @@
 import 'package:booking_app/core/utils/styles.dart';
 import 'package:flutter/material.dart';
 
-class CustomPageBody extends StatelessWidget {
-  const CustomPageBody({
+class OnboardingTitles extends StatelessWidget {
+  const OnboardingTitles({
     super.key,
     required this.height,
     required this.title,

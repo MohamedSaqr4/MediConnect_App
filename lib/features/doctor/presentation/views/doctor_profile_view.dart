@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-class DoctorProfileSettingView extends StatelessWidget {
+class DoctorProfileView extends StatelessWidget {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController specializationController =
       TextEditingController();
@@ -8,7 +9,7 @@ class DoctorProfileSettingView extends StatelessWidget {
   final TextEditingController sessionPriceController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  DoctorProfileSettingView({super.key});
+  DoctorProfileView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +18,7 @@ class DoctorProfileSettingView extends StatelessWidget {
         title: const Text("Profile Settings"),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => context.pop(),
         ),
       ),
       body: SingleChildScrollView(

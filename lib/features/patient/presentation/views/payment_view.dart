@@ -1,4 +1,5 @@
 import 'package:booking_app/core/utils/app_router.dart';
+import 'package:booking_app/features/patient/presentation/patient_router.dart';
 import 'package:flutter/material.dart';
 import 'package:booking_app/constants.dart';
 import 'package:booking_app/features/patient/domain/models/doctor.dart';
@@ -41,8 +42,7 @@ class _PaymentViewState extends State<PaymentView> {
         appBar: AppBar(
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
-            onPressed: () =>
-GoRouter.of(context).push(AppRouter.kPatientNavBar),
+            onPressed: () => context.push(PatientRouter.kPatientNavBar),
           ),
           title: const Text('Payment'),
           backgroundColor: kPrimaryColor,

@@ -1,16 +1,15 @@
 import 'package:booking_app/constants.dart';
 import 'package:booking_app/core/utils/widgets/HeaderSection.dart';
-import 'package:booking_app/features/authentication/presentation/views/widgets/TextWithButton.dart';
 import 'package:booking_app/core/utils/widgets/customButton.dart';
 import 'package:booking_app/features/authentication/presentation/views/widgets/customTextForm.dart';
 import 'package:flutter/material.dart';
-import 'package:booking_app/core/utils/validators.dart';
+import 'package:go_router/go_router.dart';
 
 class ForgotPasswordViewBody extends StatefulWidget {
   const ForgotPasswordViewBody({super.key});
 
   @override
-  _ForgotPasswordViewBodyState createState() => _ForgotPasswordViewBodyState();
+  State<ForgotPasswordViewBody> createState() => _ForgotPasswordViewBodyState();
 }
 
 class _ForgotPasswordViewBodyState extends State<ForgotPasswordViewBody> {
@@ -25,13 +24,22 @@ class _ForgotPasswordViewBodyState extends State<ForgotPasswordViewBody> {
 
   void _resetPassword() {
     if (_formKey.currentState!.validate()) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Password reset link sent to your email')),
+      // Show success dialog
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Success'),
+          content: const Text('Password reset link sent to your email'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                context.pop();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        ),
       );
-      // After showing the message, navigate back after a delay
-      Future.delayed(const Duration(seconds: 3), () {
-        Navigator.pop(context);
-      });
     }
   }
 
@@ -39,58 +47,69 @@ class _ForgotPasswordViewBodyState extends State<ForgotPasswordViewBody> {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         const Expanded(
-            flex: 1,
-            child: HeaderSection(
-                title: 'Forgot Password',
-                subtitle: 'Enter Your EmailTo Reset Password')),
+          flex: 1,
+          child: HeaderSection(
+            title: 'Forgot Password',
+            subtitle: 'Enter your email to reset your password',
+          ),
+        ),
         Expanded(
           flex: 3,
           child: Container(
             decoration: boxDecoration,
             padding: const EdgeInsets.only(
                 top: 30.0, left: 24.0, right: 24.0, bottom: 24.0),
-            child: Form(
-              key: _formKey,
-              child: LayoutBuilder(builder: (context, constraints) {
-                return SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  child: ConstrainedBox(
-                    constraints:
-                        BoxConstraints(minHeight: constraints.maxHeight),
-                    child: IntrinsicHeight(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const SizedBox(height: 8),
-                          CustomTextFormField(
-                            controller: _emailController,
-                            labelText: 'Email or phone number',
-                            keyboardType: TextInputType.emailAddress,
-                            validator: Validators.email,
-                          ),
-                          const SizedBox(height: 36),
-                          CustomButton(
-                            text: 'SEND RESET LINK',
-                            onPressed: _resetPassword,
-                            backgroundColor: kPrimaryColor,
-                          ),
-                          const Spacer(),
-                          TextWithButton(
-                            text: 'Remember your password?',
-                            buttonText: 'Log in',
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                          )
-                        ],
-                      ),
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Form(
+                    key: _formKey,
+                    child: CustomTextFormField(
+                      controller: _emailController,
+                      labelText: 'Email',
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your email';
+                        }
+                        if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                            .hasMatch(value)) {
+                          return 'Please enter a valid email';
+                        }
+                        return null;
+                      },
                     ),
                   ),
-                );
-              }),
+                  const SizedBox(height: 16),
+                  CustomButton(
+                    text: 'SEND RESET LINK',
+                    onPressed: _resetPassword,
+                    backgroundColor: kPrimaryColor,
+                  ),
+                  const SizedBox(height: 24),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text("Remember your password? "),
+                      TextButton(
+                        onPressed: () => context.pop(),
+                        child: const Text(
+                          'Login',
+                          style: TextStyle(
+                            color: kPrimaryColor,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),

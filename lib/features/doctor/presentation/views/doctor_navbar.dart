@@ -1,4 +1,4 @@
-import 'package:booking_app/features/doctor/presentation/views/Doctor_appointment_view.dart';
+import 'package:booking_app/features/doctor/presentation/views/doctor_appointment_view.dart';
 import 'package:booking_app/features/doctor/presentation/views/doctor_profile_view.dart';
 import 'package:booking_app/features/doctor/presentation/views/widgets/chat_list_screen.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +19,7 @@ class _DoctorNavBarState extends State<DoctorNavBar> {
     const DoctorHomeView(),
     DoctorAppointmentView(),
     ChatListScreen(),
-    DoctorProfileSettingView(),
+    DoctorProfileView(),
   ];
 
   @override
@@ -27,6 +27,7 @@ class _DoctorNavBarState extends State<DoctorNavBar> {
     return Scaffold(
       body: pages[currentIndex],
       bottomNavigationBar: BottomNavigationBar(
+        elevation: 0,
         selectedItemColor: kPrimaryColor,
         unselectedItemColor: Colors.black26,
         currentIndex: currentIndex,

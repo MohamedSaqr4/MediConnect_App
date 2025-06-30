@@ -1,9 +1,9 @@
 import 'package:booking_app/constants.dart';
+import 'package:booking_app/features/patient/presentation/patient_router.dart';
 import 'package:booking_app/features/patient/presentation/views/widgets/search_card_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:booking_app/features/patient/presentation/views/doctor_search_view.dart';
-import 'package:booking_app/features/patient/presentation/views/pharmacy_search_view.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 
 class PatientHomeView extends StatelessWidget {
   const PatientHomeView({super.key});
@@ -55,12 +55,7 @@ class PatientHomeView extends StatelessWidget {
                     primaryColor: kPrimaryColor,
                     secondaryColor: kPrimaryColor.withOpacity(0.9),
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const DoctorSearchView(),
-                        ),
-                      );
+                      context.push(PatientRouter.kDoctorSearchView);
                     },
                   ),
 
@@ -74,12 +69,7 @@ class PatientHomeView extends StatelessWidget {
                     primaryColor: Colors.grey.shade800,
                     secondaryColor: Colors.blueGrey.shade500,
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const PharmacySearchView(),
-                        ),
-                      );
+                      context.push(PatientRouter.kPharmacySearchView);
                     },
                   ),
                 ],

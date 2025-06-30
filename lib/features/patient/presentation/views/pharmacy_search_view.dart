@@ -1,6 +1,8 @@
 import 'package:booking_app/constants.dart';
+import 'package:booking_app/features/patient/presentation/patient_router.dart';
 import 'package:booking_app/features/patient/presentation/views/make_order_view.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class PharmacySearchView extends StatefulWidget {
   static String routeName = "PharmacySearchView";
@@ -427,15 +429,7 @@ class _PharmacySearchViewState extends State<PharmacySearchView> {
                                 ElevatedButton(
                                   onPressed: () {
                                     // Navigate to make order view
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => MakeOrderView(
-                                          pharmacyName: pharmacy['name'],
-                                          pharmacyImage: pharmacy['image'],
-                                        ),
-                                      ),
-                                    );
+                                    context.push(PatientRouter.kMakeOrderView);
                                   },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: kPrimaryColor,

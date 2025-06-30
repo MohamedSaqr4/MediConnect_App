@@ -1,7 +1,5 @@
-import 'package:booking_app/core/utils/app_router.dart';
-import 'package:booking_app/features/patient/presentation/views/patient_navbar.dart';
-import 'package:booking_app/features/pharmacist/presentation/views/pharmacist_home_view.dart';
-import 'package:booking_app/features/pharmacist/presentation/views/pharmcist_navbar.dart';
+import 'package:booking_app/features/authentication/presentation/auth_router.dart';
+import 'package:booking_app/features/patient/presentation/patient_router.dart';
 import 'package:flutter/material.dart';
 import 'package:booking_app/constants.dart';
 import 'package:booking_app/core/utils/widgets/HeaderSection.dart';
@@ -33,15 +31,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
 
   void login() {
     if (_formKey.currentState!.validate()) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const PharmcyNavbar(),
-        ),
-      );
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Logging in...')),
-      );
+      context.push(PatientRouter.kPatientNavBar);
     }
   }
 
@@ -82,8 +72,8 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                   Align(
                     alignment: Alignment.centerRight,
                     child: TextButton(
-                        onPressed: () => GoRouter.of(context)
-                            .push(AppRouter.kForgetPasswordView),
+                        onPressed: () =>
+                            context.push(AuthRouter.kForgetPasswordView),
                         child: const Text(
                           'Forgot password?',
                           style: TextStyle(
@@ -105,7 +95,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                     text: "Don't have an account?",
                     buttonText: "Sign Up",
                     onPressed: () {
-                      GoRouter.of(context).push(AppRouter.kSignUpView);
+                      context.push(AuthRouter.kSignUpView);
                     },
                   ),
                   const SizedBox(height: 2),

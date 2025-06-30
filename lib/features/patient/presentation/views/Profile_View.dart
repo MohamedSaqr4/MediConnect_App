@@ -1,5 +1,6 @@
 import 'package:booking_app/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({Key? key}) : super(key: key);
@@ -25,10 +26,9 @@ class _ProfileViewState extends State<ProfileView> {
         ),
         actions: [
           TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Cancel')),
+              onPressed: () => context.pop(), child: const Text('Cancel')),
           TextButton(
-              onPressed: () => Navigator.pop(context, controller.text),
+              onPressed: () => context.pop(controller.text),
               child: const Text('Save')),
         ],
       ),
@@ -63,11 +63,8 @@ class _ProfileViewState extends State<ProfileView> {
         ),
         actions: [
           TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Cancel')),
-          TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Save')),
+              onPressed: () => context.pop(), child: const Text('Cancel')),
+          TextButton(onPressed: () => context.pop(), child: const Text('Save')),
         ],
       ),
     );

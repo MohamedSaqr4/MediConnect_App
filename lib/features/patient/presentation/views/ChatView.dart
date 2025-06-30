@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:booking_app/constants.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import 'package:go_router/go_router.dart';
 // import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 
 class ChatView extends StatefulWidget {
@@ -146,22 +147,16 @@ class _ChatViewState extends State<ChatView> {
                   icon: const Icon(Icons.call, color: Colors.white),
                   tooltip: 'Audio Call',
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const AudioCallScreen()),
-                    );
+                    // Navigate to audio call screen
+                    context.push('/audio-call');
                   },
                 ),
                 IconButton(
                   icon: const Icon(Icons.videocam, color: Colors.white),
                   tooltip: 'Video Call',
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const VideoCallScreen()),
-                    );
+                    // Navigate to video call screen
+                    context.push('/video-call');
                   },
                 ),
               ]

@@ -1,3 +1,4 @@
+import 'package:booking_app/features/patient/presentation/patient_router.dart';
 import 'package:flutter/material.dart';
 import 'package:booking_app/constants.dart';
 import 'package:booking_app/features/patient/domain/models/doctor.dart';
@@ -97,8 +98,8 @@ class _DoctorSearchViewState extends State<DoctorSearchView> {
 
   void _handleOnlineBooking(Doctor doctor, AvailableTime selectedTime) {
     // Navigate to payment view
-    context.go(
-      AppRouter.kPaymentView,
+    context.push(
+      PatientRouter.kPaymentView,
       extra: {
         'doctor': doctor,
         'selectedTime': selectedTime,

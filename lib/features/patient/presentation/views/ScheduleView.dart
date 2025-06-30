@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:booking_app/constants.dart';
+import 'package:booking_app/features/patient/presentation/patient_router.dart';
 import 'package:booking_app/features/patient/presentation/views/ChatView.dart';
 import 'package:booking_app/features/patient/presentation/views/widgets/schedule_card.dart';
+import 'package:go_router/go_router.dart';
 
 class DoctorAppointment {
   final String doctorName;
@@ -164,15 +166,7 @@ class _ScheduleViewState extends State<ScheduleView>
                 imagePath: appointment.imagePath,
                 appointmentType: appointment.appointmentType,
                 onChatPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ChatView(
-                        isDoctorChat: true,
-                        doctor: appointment.chatDoctor,
-                      ),
-                    ),
-                  );
+                  context.push(PatientRouter.kChatView);
                 },
                 chatButtonLabel: 'Chat',
               );
@@ -194,15 +188,7 @@ class _ScheduleViewState extends State<ScheduleView>
                 imagePath: appointment.imagePath,
                 appointmentType: appointment.appointmentType,
                 onChatPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ChatView(
-                        isDoctorChat: true,
-                        doctor: appointment.chatDoctor,
-                      ),
-                    ),
-                  );
+                  context.push(PatientRouter.kChatView);
                 },
                 chatButtonLabel: 'Review Chat',
               );

@@ -5,7 +5,7 @@ import 'package:booking_app/features/authentication/presentation/views/widgets/s
 import 'package:booking_app/core/utils/widgets/customButton.dart';
 import 'package:booking_app/features/authentication/presentation/views/widgets/SocialLoginOptions%20.dart';
 import 'package:booking_app/features/authentication/presentation/views/widgets/TextWithButton.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:go_router/go_router.dart';
 
 class SignUpViewBody extends StatefulWidget {
   const SignUpViewBody({super.key});
@@ -36,10 +36,36 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
 
   void _signUp() async {
     if (_formKey.currentState!.validate()) {
-      final prefs = await SharedPreferences.getInstance();
-      prefs.setString('userType', _selectedUserType ?? '');
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Signing up...')),
+      // Show loading dialog
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => const Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+
+      // Simulate API call
+      await Future.delayed(const Duration(seconds: 2));
+
+      // Close loading dialog
+      context.pop();
+
+      // Show success dialog
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Success'),
+          content: const Text('Account created successfully!'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                context.pop();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        ),
       );
     }
   }
@@ -98,7 +124,7 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
                     text: "Already have an account?",
                     buttonText: "Log in",
                     onPressed: () {
-                      Navigator.pop(context);
+                      context.pop();
                     },
                   ),
                   const SizedBox(height: 2),
